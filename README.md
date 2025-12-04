@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# ExpenseWise Frontend (React + React Admin)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+This is the frontend UI for ExpenseWise**, a simple personal expense tracking dashboard.
+The frontend is built using React, Vite, and React Admin, and provides a clean admin-style interface for managing Users, Categories, and Expenses.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Backend repo: https://github.com/alicengalice/expensewise-backend
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **React 18**
+* **Vite**
+* **TypeScript**
+* **React Admin**
+* **Material UI**
+* **ra-data-simple-rest** (REST data provider)
+* **Axios**
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* `App.tsx`: React Admin root configuration
+* `main.tsx`: Vite app entry
+* `api.ts`: REST data provider + API base URL
+* `resources/`: CRUD components for Users, Categories, Expenses
+* `dashboard/`: Simple custom dashboard page
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+  api.ts
+  App.tsx
+  main.tsx
+  assets/
+  dashboard/
+  resources/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+* View, create, edit, and delete Users
+* Manage Categories
+* Manage Expenses
+* Auto-generated table and form UI
+* Simple Dashboard (placeholder)
+* Pagination, sorting, filtering (handled by React Admin)
+* Integrates directly with Spring Boot backend
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## API Configuration
+
+The frontend communicates with the backend here:
+
+`src/api.ts`
+
+```ts
+export const API_URL = "http://localhost:8080/api";
 ```
+
+Backend should run on:
+
+```
+http://localhost:8080
+```
+
+## Running the Frontend
+
+### 1. Install dependencies
+
+```
+npm install
+```
+
+### 2. Start the dev server
+
+```
+npm run dev
+```
+
+The application will run at:
+
+```
+http://localhost:5173
+```
+
+## Pages Included
+
+### Users
+
+* UserList
+* UserCreate
+* UserEdit
+
+### Categories
+
+* CategoryList
+* CategoryCreate
+* CategoryEdit
+
+### Expenses
+
+* ExpenseList
+* ExpenseCreate
+* ExpenseEdit
+
+## Demo 
+
+[screenshots updating...]
+
+## Connecting Backend + Frontend
+
+Backend must expose REST endpoints at:
+
+```
+GET /api/users
+GET /api/categories
+GET /api/expenses
+```
+
+The frontend reads these automatically using the React Admin REST provider.
