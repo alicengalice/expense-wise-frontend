@@ -16,9 +16,9 @@ const UserFilters = [
 export const UserList = () => (
   <List filters={UserFilters}>
     <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <TextField source="username" />
-      <TextField source="email" />
+      <TextField source="id" sortable={false} />
+      <TextField source="username" sortable={true} />
+      <TextField source="email" sortable={true} />
     </Datagrid>
   </List>
 );

@@ -20,12 +20,12 @@ const ExpenseFilters = [
 export const ExpenseList = () => (
   <List filters={ExpenseFilters}>
     <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <TextField source="description" />
-      <TextField source="amount" />
-      <TextField source="date" />
-      <TextField source="category.name" label="Category" />
-      <TextField source="user.username" label="User" />
+      <TextField source="id" sortable={false} />
+      <TextField source="description" sortable={true} />
+      <TextField source="amount" sortable={true} />
+      <TextField source="date" sortable={true} />
+      <TextField source="category.name" label="Category" sortable={true} />
+      <TextField source="user.username" label="User" sortable={true} />
     </Datagrid>
   </List>
 );

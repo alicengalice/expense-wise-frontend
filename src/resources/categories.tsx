@@ -17,9 +17,9 @@ const CategoryFilters = [
 export const CategoryList = () => (
   <List filters={CategoryFilters}>
     <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <TextField source="name" />
-      <TextField source="description" />
+      <TextField source="id" sortable={false} />
+      <TextField source="name" sortable={true} />
+      <TextField source="description" sortable={true} />
     </Datagrid>
   </List>
 );

@@ -1,12 +1,16 @@
-import { Admin, Resource } from "react-admin";
+import { Admin, Resource, fetchUtils } from "react-admin";
 import simpleRestProvider from "ra-data-simple-rest";
+import { createTransformedFetch } from "./utils/paramTransformer";
 
 import Dashboard from "./dashboard/Dashboard";
 import { UserList, UserCreate, UserEdit } from "./resources/users";
 import { CategoryList, CategoryCreate, CategoryEdit } from "./resources/categories";
 import { ExpenseList, ExpenseCreate, ExpenseEdit } from "./resources/expenses";
 
-const dataProvider = simpleRestProvider("http://localhost:8080/api");
+// Custom fetch that transforms JSON:API params to simple REST format
+const transformedFetch = createTransformedFetch(fetchUtils.fetchJson);
+
+const dataProvider = simpleRestProvider("http://localhost:8080/api", transformedFetch);
 
 function App() {
   return (
