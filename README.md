@@ -102,7 +102,7 @@ http://localhost:5173
 
 ## Demo 
 
-[screenshots updating...]
+![Expenses Table](https://github.com/alicengalice/expense-wise-frontend/blob/main/expenses-demo-screenshot.png)
 
 ## Connecting Backend + Frontend
 
