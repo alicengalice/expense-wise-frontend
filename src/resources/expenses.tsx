@@ -33,16 +33,15 @@ export const ExpenseList = () => (
 export const ExpenseEdit = () => (
   <Edit>
     <SimpleForm>
-      <TextInput source="description" validate={required()} />
-      <NumberInput source="amount" validate={required()} />
-      <DateInput source="date" />
-
-      <ReferenceInput label="Category" source="category.id" reference="categories">
-        <SelectInput optionText="name" />
+      <TextInput source="id" disabled />
+      <TextInput source="description" validate={[required()]} />
+      <NumberInput source="amount" validate={[required()]} />
+      <DateInput source="date" validate={[required()]} />
+      <ReferenceInput source="category.id" reference="categories">
+        <SelectInput optionText="name" validate={[required()]} />
       </ReferenceInput>
-
-      <ReferenceInput label="User" source="user.id" reference="users">
-        <SelectInput optionText="username" />
+      <ReferenceInput source="user.id" reference="users">
+        <SelectInput optionText="username" validate={[required()]} />
       </ReferenceInput>
     </SimpleForm>
   </Edit>
@@ -51,16 +50,14 @@ export const ExpenseEdit = () => (
 export const ExpenseCreate = () => (
   <Create>
     <SimpleForm>
-      <TextInput source="description" validate={required()} />
-      <NumberInput source="amount" validate={required()} />
-      <DateInput source="date" />
-
-      <ReferenceInput label="Category" source="category.id" reference="categories">
-        <SelectInput optionText="name" />
+      <TextInput source="description" validate={[required()]} />
+      <NumberInput source="amount" validate={[required()]} />
+      <DateInput source="date" validate={[required()]} />
+      <ReferenceInput source="category.id" reference="categories">
+        <SelectInput optionText="name" validate={[required()]} />
       </ReferenceInput>
-
-      <ReferenceInput label="User" source="user.id" reference="users">
-        <SelectInput optionText="username" />
+      <ReferenceInput source="user.id" reference="users">
+        <SelectInput optionText="username" validate={[required()]} />
       </ReferenceInput>
     </SimpleForm>
   </Create>
