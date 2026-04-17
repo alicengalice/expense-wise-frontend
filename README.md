@@ -2,7 +2,9 @@
 
 
 This is the frontend UI for ExpenseWise, a simple personal expense tracking dashboard.
+
 The frontend is built using React, Vite, and React Admin, and provides a clean admin-style interface for managing Users, Categories, and Expenses.
+
 The application's security architecture was enhanced by integrating with a standalone Go Authentication service, ensuring clean separation between UI state management and backend identity protocols.
 
 - Backend: https://github.com/alicengalice/expense-wise-backend
