@@ -34,7 +34,7 @@ const httpClient = (url: RequestInfo, options: any = {}) => {
 const transformedFetch = createTransformedFetch(httpClient);
 const baseDataProvider = simpleRestProvider("http://localhost:8080/api", transformedFetch);
 
-const normalizeExpensePayload = (data: ExpenseFormData) => {
+const prepareExpensePayload = (data: ExpenseFormData) => {
   const categoryId = data.categoryId ?? data.category?.id;
   const userId = data.userId ?? data.user?.id;
 
@@ -56,7 +56,7 @@ const dataProvider = {
 
     return baseDataProvider.create(resource, {
       ...params,
-      data: normalizeExpensePayload(rest),
+      data: prepareExpensePayload(rest),
     });
   },
   update: (resource: string, params: any) => {
@@ -68,7 +68,7 @@ const dataProvider = {
 
     return baseDataProvider.update(resource, {
       ...params,
-      data: normalizeExpensePayload(rest),
+      data: prepareExpensePayload(rest),
     });
   },
 };
