@@ -12,8 +12,25 @@ const authProvider = {
       }
       localStorage.setItem("auth_token", token);
       return Promise.resolve();
-    } catch {
-      return Promise.reject(new Error("Invalid credentials"));
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          return Promise.reject(
+            new Error("Cannot reach auth service. Is it running on port 8081?")
+          );
+        }
+
+        const status = error.response.status;
+        const body = error.response.data;
+        const message =
+          typeof body === "string"
+            ? body
+            : body?.error || body?.message || `Login failed (${status})`;
+
+        return Promise.reject(new Error(message));
+      }
+
+      return Promise.reject(new Error("Login failed"));
     }
   },
 

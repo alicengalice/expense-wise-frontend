@@ -1,4 +1,4 @@
-import { Admin, Resource, fetchUtils } from "react-admin";
+import { Admin, Resource, fetchUtils, HttpError } from "react-admin";
 import simpleRestProvider from "ra-data-simple-rest";
 import { createTransformedFetch } from "./utils/paramTransformer";
 import authProvider from "./auth/authProvider";
@@ -27,7 +27,12 @@ const httpClient = (url: RequestInfo, options: any = {}) => {
   const token = localStorage.getItem("auth_token");
   const headers = new Headers(options.headers || {});
   if (token) headers.set("Authorization", `Bearer ${token}`);
-  return fetchUtils.fetchJson(url as string, { ...options, headers });
+  return fetchUtils.fetchJson(url as string, { ...options, headers }).catch((error) => {
+    // Backend returns plain text, surface it instead of the generic status text
+    const message =
+      typeof error.body === "string" && error.body ? error.body : error.message;
+    throw new HttpError(message, error.status ?? 500, error.body);
+  });
 };
 
 // Custom fetch that transforms JSON:API params to simple REST format
@@ -52,11 +57,11 @@ const dataProvider = {
       return baseDataProvider.create(resource, params);
     }
 
-    const { category, user, ...rest } = params.data;
+    const { category: _c, user: _u, ...rest } = prepareExpensePayload(params.data);
 
     return baseDataProvider.create(resource, {
       ...params,
-      data: prepareExpensePayload(rest),
+      data: rest,
     });
   },
   update: (resource: string, params: any) => {
@@ -64,11 +69,11 @@ const dataProvider = {
       return baseDataProvider.update(resource, params);
     }
 
-    const { category, user, ...rest } = params.data;
+    const { category: _c, user: _u, ...rest } = prepareExpensePayload(params.data);
 
     return baseDataProvider.update(resource, {
       ...params,
-      data: prepareExpensePayload(rest),
+      data: rest,
     });
   },
 };
