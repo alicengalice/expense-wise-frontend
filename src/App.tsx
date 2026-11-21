@@ -2,6 +2,7 @@ import { Admin, Resource, fetchUtils, HttpError } from "react-admin";
 import simpleRestProvider from "ra-data-simple-rest";
 import { createTransformedFetch } from "./utils/paramTransformer";
 import authProvider from "./auth/authProvider";
+import { getAuthHeader } from "./auth/token";
 
 import Dashboard from "./dashboard/Dashboard";
 import { UserList, UserCreate, UserEdit } from "./resources/users";
@@ -24,9 +25,9 @@ type ExpenseFormData = {
 
 // Attach JWT token to every react-admin data request
 const httpClient = (url: RequestInfo, options: any = {}) => {
-  const token = localStorage.getItem("auth_token");
   const headers = new Headers(options.headers || {});
-  if (token) headers.set("Authorization", `Bearer ${token}`);
+  const auth = getAuthHeader();
+  if (auth) headers.set("Authorization", auth);
   return fetchUtils.fetchJson(url as string, { ...options, headers }).catch((error) => {
     // Backend returns plain text, surface it instead of the generic status text
     const message =

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearToken, decodeToken, getValidToken, setToken } from "./token";
 
 const GO_AUTH_URL = "http://localhost:8081";
 
@@ -10,7 +11,7 @@ const authProvider = {
       if (error || !token) {
         return Promise.reject(new Error(error || "Login failed"));
       }
-      localStorage.setItem("auth_token", token);
+      setToken(token);
       return Promise.resolve();
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -35,31 +36,30 @@ const authProvider = {
   },
 
   logout: () => {
-    localStorage.removeItem("auth_token");
+    clearToken();
     return Promise.resolve();
   },
 
+  // Rejects (-> login page) when the token is missing or already expired,
+  // instead of waiting for the first API call to fail
   checkAuth: () => {
-    return localStorage.getItem("auth_token") ? Promise.resolve() : Promise.reject();
+    return getValidToken() ? Promise.resolve() : Promise.reject();
   },
 
   checkError: ({ status }: { status: number }) => {
     if (status === 401 || status === 403) {
-      localStorage.removeItem("auth_token");
+      clearToken();
       return Promise.reject();
     }
     return Promise.resolve();
   },
 
   getIdentity: () => {
-    const token = localStorage.getItem("auth_token");
-    if (!token) return Promise.reject();
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return Promise.resolve({ id: payload.username, fullName: payload.username });
-    } catch {
-      return Promise.reject();
-    }
+    const token = getValidToken();
+    const payload = token ? decodeToken(token) : null;
+    const name = payload?.username ?? payload?.sub;
+    if (!name) return Promise.reject();
+    return Promise.resolve({ id: name, fullName: name });
   },
 
   getPermissions: () => Promise.resolve("admin"),
