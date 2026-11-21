@@ -123,3 +123,8 @@ GET /api/expenses
 ```
 
 The frontend reads these automatically using the React Admin REST provider.
+
+## Improvements
+:white_check_mark: Fixed expense create/update payload mapping to consistently send categoryId and userId, preventing server communication errors during expense creation (4th May 2026)
+
+:white_check_mark: Improved auth/login error handling to surface actionable network/service errors instead of generic invalid credential messages (4th May 2026)
